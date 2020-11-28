@@ -52,6 +52,15 @@ export default {
 
       return days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
     },
+    checkClass(anime){
+      let className = 'grey';
+        if (anime.episode.formatedTime == "Aired") {
+          className = 'grey'
+        } else {
+          className = 'green'
+          }
+      return className;
+    }
   },
   created() {
     var animelist = {};
@@ -111,15 +120,7 @@ export default {
     this.animes = on_air.concat(aired);
   },
   computed: {
-    checkClass(){
-      let className = '';
-        if (this.animes[0].episodes[1].formatedTime == "Aired") {
-          className = 'grey'
-        } else {
-          className = 'green'
-          }
-      return className;
-    }
+    
   },
   name: "Home",
 };
