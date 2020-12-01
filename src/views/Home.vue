@@ -3,16 +3,22 @@
     <div class="center">
       <ul class="center">
         <li v-for="(anime, index) in animes.slice(0, 8)" :key="index">
-          <span :class="checkClass">
+          <span
+            :class="
+              checkClass(
+                anime[1].episodes[anime[1].episodes.length - 1].formatedTime
+              )
+            "
+          >
             {{ anime[1].episodes[anime[1].episodes.length - 1].formatedTime }}
           </span>
-          <img src="@/assets/dummy.jpg" />
+          <img src="../assets/dummy.jpg" />
 
-          <!-- <p>{{ anime[1].anime_title }}</p>
+          <p>{{ anime[1].anime_title }}</p>
           <p>
             Episode No.
             {{ anime[1].episodes[anime[1].episodes.length - 1].episode }}
-          </p> -->
+          </p>
         </li>
       </ul>
     </div>
@@ -49,28 +55,23 @@ export default {
       );
       var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
       return days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
     },
-    checkClass(anime){
-      let className = 'grey';
-        if (anime.episode.formatedTime == "Aired") {
-          className = 'grey'
-        } else {
-          className = 'green'
-          }
-      return className;
-    }
+    checkClass(formatedTime) {
+      if (formatedTime != "Aired!") {
+        return "bg-green-500";
+      }
+      return "bg-gray-400";
+    },
   },
   created() {
     var animelist = {};
     $.ajax({
-      url: "https://cors-anywhere.herokuapp.com/https://jsonkeeper.com/b/WHIX",
+      url: "https://cors-anywhere.herokuapp.com/https://jsonkeeper.com/b/XJW9",
       type: "GET",
       dataType: "JSON",
       async: false,
       success: (data) => {
-        console.log(data);
         animelist = data;
       },
     });
@@ -119,9 +120,7 @@ export default {
 
     this.animes = on_air.concat(aired);
   },
-  computed: {
-    
-  },
+  computed: {},
   name: "Home",
 };
 </script>
@@ -148,8 +147,7 @@ ul {
       float: right;
       font-size: 10px;
       border: 1px dashed;
-      position: relative;
-      top: 12%;
+      position: absolute;
     }
   }
 }
@@ -157,10 +155,10 @@ ul {
   width: 80%;
   margin: auto;
 }
-.gray {
+.bg-gray-400 {
   background: #4b4b4b73;
 }
-.green {
+.bg-green-500 {
   background: #18fb2373;
 }
 </style>
